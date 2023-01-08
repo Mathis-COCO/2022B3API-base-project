@@ -2,6 +2,14 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import {TypeOrmModule} from '@nestjs/typeorm';
+import { UsersModule } from './users/users.module';
+import { User } from './users/entity/user.entity';
+import { AuthModule } from './auth/auth.module';
+import { ProjectsModule } from './projects/projects.module';
+import { Project } from './projects/entity/project.entity';
+import { ProjectUsersModule } from './project-users/project-user.module';
+import { ProjectUser } from './project-users/project-user.entity';
+import { EventsModule } from './events/events.module';
 
 
 @Module({
@@ -16,11 +24,15 @@ import {TypeOrmModule} from '@nestjs/typeorm';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [],
+        entities: [User, Project, ProjectUser],
         synchronize: true,
       }),
       inject: [ConfigService],
     }),
+    UsersModule,
+    ProjectsModule,
+    ProjectUsersModule,
+    EventsModule,
   ],
   controllers: [],
   providers: [],
